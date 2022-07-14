@@ -60,8 +60,6 @@ spec:
     - name: FORMAT
       value: "$(params.IMAGE_FORMAT)"
     - name: sslVerify
-      description: Set the `http.sslVerify` global git config. Setting this to `false` is not advised unless you are sure that you trust your git remote.
-      type: string
       value: "true"
   - name: kn-service-create
     taskRef:
