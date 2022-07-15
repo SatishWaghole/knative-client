@@ -59,8 +59,8 @@ spec:
       value: "quay.io/buildah/stable:latest"
     - name: FORMAT
       value: "$(params.IMAGE_FORMAT)"
-    - name: sslVerify
-      value: "true"
+    - name: TLSVERIFY
+      value: "false"
   - name: kn-service-create
     taskRef:
       name: kn
