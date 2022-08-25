@@ -1,0 +1,17 @@
+FROM registry.ci.openshift.org/ocp/ubi-minimal:8 AS packager
+WORKDIR /opt/app-root/src/go/src/github.com/knative/client
+
+ADD package_cliartifacts.sh LICENSE kn-*-* ./
+RUN microdnf install -y zip tar gzip && \
+    bash package_cliartifacts.sh
+
+FROM registry.ci.openshift.org/ocp/ubi-minimal:8
+WORKDIR /opt/app-root/src/go/src/github.com/knative/client
+RUN mkdir -p /usr/share/kn/{linux_amd64,linux_arm64,linux_ppc64le,linux_s390x,macos,windows}
+
+COPY --from=packager /opt/app-root/src/go/src/github.com/knative/client/kn-linux-amd64.tar.gz /usr/share/kn/linux_amd64/
+COPY --from=packager /opt/app-root/src/go/src/github.com/knative/client/kn-linux-ppc64le.tar.gz /usr/share/kn/linux_ppc64le/
+COPY --from=packager /opt/app-root/src/go/src/github.com/knative/client/kn-linux-s390x.tar.gz /usr/share/kn/linux_s390x/
+COPY --from=packager /opt/app-root/src/go/src/github.com/knative/client/kn-macos-amd64.tar.gz /usr/share/kn/macos/
+COPY --from=packager /opt/app-root/src/go/src/github.com/knative/client/kn-windows-amd64.zip  /usr/share/kn/windows/
+COPY --from=packager /opt/app-root/src/go/src/github.com/knative/client/LICENSE  /usr/share/kn/LICENSE
