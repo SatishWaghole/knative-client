@@ -10,7 +10,7 @@ WORKDIR /app
 COPY ./test/test_images/helloworld/ .
 
 # Build the binary.
-RUN CGO_ENABLED=0 GOOS=linux go build -v -o server
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=ppc64le go build -v -o server
 
 # Use the official Alpine image for a lean production container.
 # https://hub.docker.com/_/alpine
